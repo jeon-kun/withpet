@@ -1,35 +1,37 @@
 package com.withpet.domain;
 
-import java.io.Serializable;
-import java.sql.Date;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import oracle.sql.CHAR;
 
-@NoArgsConstructor
+@Builder
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
-@Builder
 @ToString
-public class MemberVO implements Serializable {
+public class PetVO {
+	
+	private int petno;
 	
 	private int mno;
 	
-	private String email;
-	
 	private String name;
 	
-	private String password;
+	private String sex;
 	
-	private int birth;
+	private String species;
 	
-	private Date created_date;
+	private int age;
 	
-	private String authority;
-
+	private String filepath;
+	
+	private String filename;
+	
+	private String uuid;
 }

@@ -23,6 +23,20 @@
 	
 	<context:component-scan base-package="com.withpet.controller" />
 	
+	    <!-- 인터셉터 적용 -->
+    <interceptors>
+        <interceptor>
+            <mapping path="/member/login"></mapping>
+            <beans:bean id="loginIntreceptor" class="com.withpet.interceptor.LoginInterceptor"></beans:bean>
+        </interceptor>
+        
+        <interceptor>
+            <mapping path="/admin/**"></mapping>
+            <beans:bean id="AdminIntreceptor" class="com.withpet.interceptor.AdminInterceptor"></beans:bean>
+        </interceptor>
+
+    </interceptors>
 	
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver"></beans:bean>	
 	
 </beans:beans>

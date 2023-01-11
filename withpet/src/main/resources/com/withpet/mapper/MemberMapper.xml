@@ -20,8 +20,9 @@
           <!-- 로그인 -->
       <select id="memberLogin" resultType="com.withpet.domain.MemberVO">
       
-        SELECT name,email,password,authority FROM member WHERE email = #{email} 
+        SELECT mno,birth,name,email,password,authority FROM member WHERE email = #{email} 
       
       </select>
+      
 
   </mapper>
