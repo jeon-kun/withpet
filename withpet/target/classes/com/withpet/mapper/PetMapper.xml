@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.withpet.mapper.PetMapper">
+  	
+  	<sql id="criteria">
+		<trim prefixOverrides="OR" suffix=") AND " prefix="(">
+			<foreach collection="typeArr" item="type"> 
+				<trim prefix="OR">
+					<choose>
+						<when test="type == 'T'.toString()">
+							pno like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'C'.toString()">
+							name like '%'||#{keyword}||'%' 
+						</when>
+						<when test="type == 'W'.toString()">
+							scno = #{keyword}
+						</when>
+					</choose>
+				</trim>
+			</foreach>		
+		</trim>
+	</sql>
+  	
+  	<!-- 마이펫리스트 -->
+  	<select id="listPet" resultType="com.withpet.domain.PetVO">
+  	
+  				<![CDATA[
+			select *
+			FROM(
+				select /*+INDEX_DESC(PET SYS_C007484)*/
+				rownum as rn,petno,mno,sex,species,age,name,filename,filepath,uuid
+				from PET
+				where
+					]]>
+				<include refid ="criteria"/>
+				<![CDATA[
+					rownum <= #{pageNum} * #{amount}
+					) where rn > (#{pageNum}-1) * #{amount}
+				]]>
+  	</select>
+  	
+  	<select id="imgList" resultType="com.withpet.domain.PetVO">
+		select * from PET where petno= #{petno} 
+	</select>
+  	
+  	
+  	<!-- 펫등록 -->
+      <insert id="insertPet" parameterType="com.withpet.domain.PetVO">
+        <selectKey keyProperty="petno" order="BEFORE" resultType="int">
+            select petno_seq.nextval from dual
+        </selectKey>
+        insert into pet(petno,mno,sex,species,age,name,filename,filepath,uuid)
+        values (#{petno},#{mno},#{sex},#{species},#{age},#{name},#{filename},#{filepath},#{uuid})
+    </insert>
+  
+  
+  </mapper>
